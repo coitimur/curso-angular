@@ -1,27 +1,33 @@
 // Load required packages
 var phones = require('../models/phones');
+var phoneImages = require('../models/phones-images');
 
 // Create endpoint /api/phones for GET all
 exports.getPhones= function(req, res) {
   // Use the Phones model to find all phones
     
-  phones.find({}, function(err, data) {
+  phones.find({}, function(err, phones) {
     
     if (err) res.send(err);
-    
-    res.json(data);
-      
+	
+    res.json(phones);
+	      
   });
 };
 
 // Create endpoint /api/phones/:id for GET
 exports.getPhone = function(req, res) {
   // Use the Phones model to find a specific phone
-  phones.findById(req.params.id, function(err, data) {
-    if (err)
-      res.send(err);
+  phones.findById(req.params.id, function(err, phone) {
+    if (err) res.send(err);
 
-    res.json(data);
+		phoneImages.find({id_phone:phone.id}, function(err, images) {
+			if (err) res.send(err);
+			
+			phone.images=images;
+			res.json(phone);
+			  
+		  })
   });
 };
 
