@@ -1,0 +1,20 @@
+{
+  "name": "curso-angular",
+  "private": true,
+  "version": "0.0.0",
+  "description": "A tutorial application for AngularJs",
+  "repository": "https://github.com/coitimur/curso-angular",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "^1.7.7"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "prestart": "npm install",
+    "start": "node server/server.js"
+  },
+  "dependencies": {
+    "express": "4.13.3",
+    "path": "^0.12.7"
+  }
+}
