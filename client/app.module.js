@@ -3,7 +3,8 @@
 // Define the `phonecatApp` module
 angular.module('phonecatApp', [
   'ngRoute',
-  'checkmark',
+  'core.filters.checkmark',
+  'core.factories.phone',
   'phoneDetail',
   'phoneList',
 ]);

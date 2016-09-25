@@ -4,17 +4,20 @@
     <meta charset="utf-8">
     <title>Google Phone Gallery</title>
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="assets/css/app.css" />
     <script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
+	<script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="app.module.js"></script>
 	<script src="app.config.js"></script>
-	<script src="checkmark/checkmark.module.js"></script>
-    <script src="checkmark/checkmark.filter.js"></script>
-    <script src="phone-list/phone-list.module.js"></script>
-    <script src="phone-list/phone-list.component.js"></script>
-	<script src="phone-detail/phone-detail.module.js"></script>
-    <script src="phone-detail/phone-detail.component.js"></script>
+	<script src="core/filters/checkmark/checkmark.module.js"></script>
+    <script src="core/filters/checkmark/checkmark.filter.js"></script>
+	<script src="core/factories/phone/phone.module.js"></script>
+    <script src="core/factories/phone/phone.service.js"></script>
+    <script src="views/phone-list/phone-list.module.js"></script>
+    <script src="views/phone-list/phone-list.component.js"></script>
+	<script src="views/phone-detail/phone-detail.module.js"></script>
+    <script src="views/phone-detail/phone-detail.component.js"></script>
 	
   </head>
   <body>
