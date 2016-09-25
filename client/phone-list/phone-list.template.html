@@ -23,7 +23,7 @@
       <ul class="phones">
         <li ng-repeat="phone in $ctrl.phones | filter:$ctrl.query | orderBy:$ctrl.orderProp">
           <span>{{phone.name}}</span>
-          <p>{{phone.snippet}}</p>
+          <p>{{phone.description}}</p>
         </li>
       </ul>
 
