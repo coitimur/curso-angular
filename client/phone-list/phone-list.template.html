@@ -22,11 +22,11 @@
 
       <ul class="phones">
         <li ng-repeat="phone in $ctrl.phones | filter:$ctrl.query | orderBy:$ctrl.orderProp" class="thumbnail">
-          <a href="#/phones/{{phone.id}}" class="thumb">
+          <a href="#!/phones/{{phone.id}}" class="thumb">
             <img ng-src="{{phone.images}}" alt="{{phone.name}}" />
           </a>
-          <a href="#/phones/{{phone.id}}">{{phone.name}}</a>
-          <p>{{phone.description | limitTo:100}} ...</p>
+          <a href="#!/phones/{{phone.id}}">{{phone.name}}</a>
+          <p>{{phone.description | limitTo:150}} ...</p>
         </li>
       </ul>
 
