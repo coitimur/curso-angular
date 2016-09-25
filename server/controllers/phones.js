@@ -17,7 +17,7 @@ exports.getPhones= function(req, res) {
 // Create endpoint /api/phones/:id for GET
 exports.getPhone = function(req, res) {
   // Use the Phones model to find a specific phone
-  phones.findById({id:req.params.id}, function(err, data) {
+  phones.findById(req.params.id, function(err, data) {
     if (err)
       res.send(err);
 

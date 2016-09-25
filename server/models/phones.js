@@ -56,7 +56,6 @@ exports.find=function(filters,response){
 
 
 exports.findById=function(id,response){
-	 id=parseInt(id);
     //Connect to database postgresql
     pg.connect(db.connect_options, function(err, client,done) {
         var handleError = function(err) {
