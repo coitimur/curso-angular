@@ -2,18 +2,42 @@
 
 
 
-
 # __Curso AngularJS__
-[TOC]
 
-## __Intruducción__
+Tabla de contenidos
+=================
+
+
+  * [Introducción](#introduccion)
+  *  [Prerrequisitos](#prerequisitos)
+  * [Pasos para el desarrollo de la aplicación](#pasos-para-el-desarrollo-de-la-aplicación)
+	  * [paso-0 Bootstrapping](#paso-0-bootstrapping)
+	  * [paso-1 Plantilla Estática](#paso-1-plantilla-estática)
+	  * [paso-2 Plantillas Angular](#paso-2-plantillas-angular)
+	  * [paso-3 Componentes](#paso-3-componentes)
+	  * [paso-4  Organización de Archivos y Directorios](#paso-4-organización-de-archivos-y-directorios)
+	  * [paso-5 Filtrar la Directiva ngRepeater](#paso-5-filtrar-la-directiva-ngrepeater)
+	  * [paso-6 Two-way Data Binding](#paso-6-two-way-data-binding)
+	  * [paso-7 XHR e Inyección de Dependencias](#paso-7-xhr-e-inyección-de-dependencias)
+	  * [paso-8 Links en las Plantillas e Imágenes](#paso-8-links-en-las-plantillas-e-imágenes)
+	  * [paso-9 Enrutado & Multiples Vistas](#paso-9-enrutado-y-multiples-vistas)
+	  * [paso-10 Más Plantillas](#paso-10-más-plantillas)
+	  * [paso-11 Filtros Personalizados](#paso-11-filtros-personalizados)
+	  * [paso-12 Gestores de Eventos](#paso-12-gestores-de-eventos)
+	  * [paso-13 REST y Servicio Personalizados](#paso-13-rest-y-servicio-personalizados)
+	  * [paso-14 Animaciones](#paso-14-animaciones)
+
+
+Introducción
+===========
 Esta aplicación guía al desarrollador durante el proceso de desarrollo de una aplicación web usando AngularJS. La aplicación y el tutorial están basados en [Angularjs.org tutorial][tutorial-angular-org].
 
 Cada paso enseña un único aspecto del framework.
 
 
 
-## __Prerequisitos__
+Prerequisitos
+===========
 
 ### __Git (opcional)__
 - Descargar e instalar [git][git-setup].
@@ -30,13 +54,14 @@ git clone https://github.com/coitimur/curso-angular
 
 ### __Node.js y Herramientas__
 
-
 - Descargar e instalar [Node.js][node-download].
 
 
-## __Pasos para el desarrollo de la aplicación__
+Pasos para el desarrollo de la aplicación
+==================================
 
-### __paso-0 Bootstrapping__
+paso-0 Bootstrapping              [<i class="icon-upload"></i>](#tabla-de-contenidos)
+-------------------------------
 Desde el directorio raíz del proyecto descargado 'curso-angular' abrimos una consola de comandos y
 reseteamos el espacio de trabajo al paso-0, con el comando:
 ```
@@ -113,7 +138,8 @@ Añada otras expresiones al archivo `index.html`:
 - Añadir la directiva ngApp para bootstrap la aplicación.
 - Añadir un plantilla (template) muy simple con una expresión.
 
-### __paso-1 Plantilla Estática__
+paso-1 Plantilla Estática
+-----------------------------------
 Para mostrar cómo Angular mejora el HTML estándar, vamos a crear una página HTML púramente estática, para después en el paso-2 ver cómo podemos cambiar el código HTML a una plantilla Angular que muestre dinámicamente el mismo resultado, leyendo los datos desde un array almacenado en una variable.
 
 Añadimos el siguiente código HTML al archivo `client/index.html`:
@@ -140,7 +166,8 @@ Añadimos el siguiente código HTML al archivo `client/index.html`:
 
 [Ver diferencias del código con el paso-0][dif-paso-0-paso-1]
 
-### __paso-2 Plantillas Angular__
+paso-2 Plantillas Angular  [<i class="icon-upload"></i>](#tabla-de-contenidos)
+-------------------------------------
 En este paso vamos a crear una página dinámica con Angular. 
 
 Hay muchas formas de estructurar el código de una aplicación. Para aplicaciones angular, alentamos el uso del patrón de diseño Modelo-Vista-Controlador (MVC) para desacoplar el código y los conceptos por separado. Con esto en mente, vamos a usar un poco de JavaScript angular y añadir modelos, vistas y controladores a nuestra aplicación.
@@ -251,7 +278,8 @@ y bindearla a la plantilla:
 
 [Ver diferencias del código con el paso-1][dif-paso-1-paso-2]
 
-### __paso-3 Componentes__
+paso-3 Componentes   [<i class="icon-upload"></i>](#tabla-de-contenidos)
+-------------------------------
 En el paso anterior, hemos visto cómo un controlador y una plantilla trabajan juntas para convertir una página HTML estática en una vista dinámica. Éste es un patrón muy común en apliaciones SPA ( Single-Page Aplications):
 
 - En lugar de crear una página HTML estática en el servidor, el código del cliente "se hace cargo" e interactúa dinámicamente con la vista, modificandola al instante para reflejar los cambios en los datos del modelo, por lo general como resultado de la interacción del usuario (vamos a ver un ejemplo en el paso 5).
@@ -374,7 +402,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-2][dif-paso-2-paso-3]
 
-### __paso-4  Organización de Archivos y Directorios__
+paso-4  Organización de Archivos y Directorios   [<i class="icon-upload"></i>](#tabla-de-contenidos)
+--------------------------------------------------------------------
 
 #### Resumen de cambios
 - Refactorizar la estructura de directorios y ficheros, aplicando las mejores técnicas y prácticas para que sea más fácil el mantenimiento y escalado de la apliación en el futuro:
@@ -385,7 +414,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-3][dif-paso-3-paso-4]
 
-### paso-5 _Filtrar la Directiva ngRepeater_
+paso-5 Filtrar la Directiva ngRepeater     [<i class="icon-upload"></i>](#tabla-de-contenidos)
+--------------------------------------------------------
 
 #### Resumen de cambios
 - Añadir un cuadro de búsqueda para demostrar:
@@ -395,7 +425,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-4][dif-paso-4-paso-5]
 
-### paso-6 _Two-way Data Binding_
+paso-6 Two-way Data Binding   [<i class="icon-upload"></i>](#tabla-de-contenidos)
+-------------------------------------------
 
 #### Resumen de cambios
 - Añadir una propiedad `age` al modelo phone.
@@ -404,7 +435,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-5][dif-paso-5-paso-6]
 
-### paso-7 _XHR e Inyección de Dependencias_
+paso-7 XHR e Inyección de Dependencias    [<i class="icon-upload"></i>](#tabla-de-contenidos)
+------------------------------------------------------------
 
 #### Resumen de cambios
 - Reemplazar el conjunto de datos en memoria con datos cargados desde el servidor a través de una llamada a un servicio REST:
@@ -415,7 +447,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-6][dif-paso-6-paso-7]
 
-### paso-8 _Links en las Plantillas e Imágenes_
+paso-8 Links en las Plantillas e Imágenes   [<i class="icon-upload"></i>](#tabla-de-contenidos)
+-----------------------------------------------------------
 
 #### Resumen de cambios
 - Añadir una imagen del teléfono y un enlace para ir a la página de detalles del teléfono.
@@ -423,7 +456,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-8][dif-paso-8-paso-9]
 
-### paso-9 _Enrutado & Multiples Vistas_
+paso-9 Enrutado y Multiples Vistas [<i class="icon-upload"></i>](#tabla-de-contenidos)
+-------------------------------------------------
 
 #### Resumen de cambios
 - Introduce el servicio `$route`, el cual permite enlazar URLs  a vistas para realizar routing:
@@ -439,7 +473,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-8][dif-paso-8-paso-9]
 
-### paso-10 _Más Plantillas_
+paso-10 Más Plantillas [<i class="icon-upload"></i>](#tabla-de-contenidos)
+---------------------------------
 
 #### Resumen de cambios
 - Implementa la extracción de los datos del teléfono seleccionado y el renderizado sobre la vista:
@@ -449,15 +484,16 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-9][dif-paso-9-paso-10]
 
-### paso-11 _Filtros Personalizados_
-
+paso-11 Filtros Personalizados  [<i class="icon-upload"></i>](#tabla-de-contenidos)
+--------------------------------------------
 #### Resumen de cambios
 - Implementar un filtro personalizado `checkmark`.
 - Modificar la plantilla `phoneDetail` para usar el filtro `checkmark`.
 
 [Ver diferencias del código con el paso-10][dif-paso-10-paso-11]
 
-### paso-12 _Gestores de Eventos_
+paso-12 Gestores de Eventos  [<i class="icon-upload"></i>](#tabla-de-contenidos)
+------------------------------------------
 
 #### Resumen de cambios
 - Hacer clickables los thumbnails de las imágenes en la vista de los detalles del teléfono:
@@ -467,7 +503,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-11][dif-paso-11-paso-12]
 
-### paso-13 _REST y Servicio Personalizados_
+paso-13 REST y Servicio Personalizados  [<i class="icon-upload"></i>](#tabla-de-contenidos)
+---------------------------------------------------------
 
 #### Resumen de cambios
 - Sustituir `$http` con `$resource`.
@@ -475,7 +512,8 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 [Ver diferencias del código con el paso-12][dif-paso-12-paso-13]
 
-### paso-14 _Animaciones_
+paso-14 Animaciones   [<i class="icon-upload"></i>](#tabla-de-contenidos)
+------------------------------
 
 #### Resumen de cambios
 - Añadir animaciones a la aplicación:
@@ -494,7 +532,7 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 
 ## Desarrollando la Aplicación
 
-Los siguientes documentos describen cómo desarrollar la aplicación.
+
 
 ### Instalación de dependencias
 
