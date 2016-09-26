@@ -62,7 +62,7 @@ Pasos para el desarrollo de la aplicación
 ==================================
 
 paso-0 Bootstrapping              [<i class="icon-upload"></i>](#tabla-de-contenidos)
--------------------------------
+--------------------
 Desde el directorio raíz del proyecto descargado 'curso-angular' abrimos una consola de comandos y
 reseteamos el espacio de trabajo al paso-0, con el comando:
 ```
@@ -140,7 +140,7 @@ Añada otras expresiones al archivo `index.html`:
 - Añadir un plantilla (template) muy simple con una expresión.
 
 paso-1 Plantilla Estática
------------------------------------
+-------------------------
 Para mostrar cómo Angular mejora el HTML estándar, vamos a crear una página HTML púramente estática, para después en el paso-2 ver cómo podemos cambiar el código HTML a una plantilla Angular que muestre dinámicamente el mismo resultado, leyendo los datos desde un array almacenado en una variable.
 
 Añadimos el siguiente código HTML al archivo `client/index.html`:
