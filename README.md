@@ -3,19 +3,19 @@
 
 
 
-# Curso AngularJS
-[Base de Datos y Herramientas](###base-de-datos-y-herramientas)
+# __Curso AngularJS__
 
-## Intruducción
+
+## __Intruducción__
 Esta aplicación guía al desarrollador durante el proceso de desarrollo de una aplicación web usando AngularJS. La aplicación y el tutorial están basados en [Angularjs.org tutorial][tutorial-angular-org].
 
 Cada paso enseña un único aspecto del framework.
 
 
 
-## Prerequisitos
+## __Prerequisitos__
 
-### Git (opcional)
+### __Git (opcional)__
 - Descargar e instalar [git][git-setup].
 - Descargar el proyecto en una carpeta de nuestro sistema utilizando desde una consola de comandos:
 ```
@@ -23,12 +23,12 @@ git clone https://github.com/coitimur/curso-angular
 ```
 - o descargar zip desde https://github.com/coitimur/curso-angular
 
-### Base de Datos y Herramientas
+### __Base de Datos y Herramientas__
 - Descargar e instalar el servidor  [PostgreSQL][pgsql] . Cuando el asistente de instalación solicite la contraseña para el usuario 'admin' le ponemos: '1234'.
 - Descargar e instalar la herramienta [pgAdmin][pgadmin] para administración y desarrollo del servidor PostgreSQL. 
 
 
-### Node.js y Herramientas
+### __Node.js y Herramientas__
 
 
 - Descargar e instalar [Node.js][node-download].
