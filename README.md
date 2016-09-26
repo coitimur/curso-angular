@@ -1,6 +1,8 @@
 
 
 
+
+
 # Curso AngularJS
 
 
@@ -67,7 +69,8 @@ La página HTML 	que muestra "Nothing here yet!" ha sido construida como muestra
   </body>
 </html>
 ```
-#### ¿Qué hace que funcione?
+####__¿Qué hace que funcione?__
+
 __Atributo__ `ng-app`:
 ```
 <html ng-app>
@@ -99,30 +102,148 @@ Las expresiones Angular son como las sentencias JavaScript pero son evaluadas po
 
 _Referencias_: [Expresiones Angular][expangular]
 
-#### Pruebas
+#### __Pruebas__
 Añada otras expresiones al archivo `index.html`:
 ```
 <p>100 + 200 = {{100 + 200}}</p>
 ```
 
-#### Resumen de cambios
+#### __Resumen de cambios__
 - Añadir el script 'angular.js' al archivo index.html.
 - Añadir la directiva ngApp para bootstrap la aplicación.
 - Añadir un plantilla (template) muy simple con una expresión.
 
-### paso-1 _Plantilla Estática_
+### __paso-1 Plantilla Estática__
+Para mostrar cómo Angular mejora el HTML estándar, vamos a crear una página HTML púramente estática, para después en el paso-2 ver cómo podemos cambiar el código HTML a una plantilla Angular que muestre dinámicamente el mismo resultado, leyendo los datos desde un array almacenado en una variable.
 
-#### Resumen de cambios
-- Añadir un fichero css ('cliente/app.css').
+Añadimos el siguiente código HTML al archivo `client/index.html`:
+
+```
+<ul>
+  <li>
+    <span>Nexus S</span>
+    <p>
+      Fast just got faster with Nexus S.
+    </p>
+  </li>
+  <li>
+    <span>Motorola XOOM™ with Wi-Fi</span>
+    <p>
+      The Next, Next Generation tablet.
+    </p>
+  </li>
+</ul>
+```
+
+#### __Resumen de cambios__
 - Añadir una lista estática con dos teléfonos.
 
 [Ver diferencias del código con el paso-0][dif-paso-0-paso-1]
 
-### paso-2 _Plantillas Angular_
+### __paso-2 Plantillas Angular__
+En este paso vamos a crear una página dinámica con Angular. 
 
+Hay muchas formas de estructurar el código de una aplicación. Para aplicaciones angular, alentamos el uso del patrón de diseño Modelo-Vista-Controlador (MVC) para desacoplar el código y los conceptos por separado. Con esto en mente, vamos a usar un poco de JavaScript angular y añadir modelos, vistas y controladores a nuestra aplicación.
 
+#### __Vista y Plantilla__
+En Angular, la vista es la proyección del modelo a través de la plantilla HTML. Esto quiere decir que cuando el modelo cambia Angular refresca los los puntos de la plantilla donde se enlazo el modelo, modificando la vista.
 
-#### Resumen de cambios
+La vista es creada por Angular a partir de la plantilla HTML.
+
+`client/index.html`:
+
+```
+<html ng-app="phonecatApp">
+<head>
+  ...
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="app.js"></script>
+</head>
+<body ng-controller="PhoneListController">
+
+  <ul>
+    <li ng-repeat="phone in phones">
+      <span>{{phone.name}}</span>
+      <p>{{phone.snippet}}</p>
+    </li>
+  </ul>
+
+</body>
+</html>
+```
+Vamos a reemplazar la lista de teléfonos harcodeada en HTML con la directiva ngRepeat y dos expresiones Angular:
+
+- El atributo `ng-repeat="phone in phones` sobre la etiqueta <li> es la directiva repetidora de Angular.
+- Las expresiones envueltas en dobles llaves `{{phone.name}}` y `{{phone.snippet}}` serán reemplazadas por el valor de las expresiones.
+
+También hemos añadido una nueva directiva, [ngController][ngctrl], la cual conecta el controlador `PhoneListController` a la etiqueta `<body>`:
+
+- El controlador `PhoneListController` está a cargo del sub-árbol del DOM que cuelga de la etiqueta `<body>`, incluida ésta.
+- Las expresiones entres dobles llaves `{{phone.name}}` y `{{phone.snippet}}` denotan un binding, están haciendo referencia a propiedades de nuestro modelo  `phone` que ha sido creado en el controlador `PhoneListController`.
+- También hemos especificado el módulo a cargar al inicio de la aplicación,  usando  `ng-app="phonecatApp`, donde   `phonecatApp` es el nombre del módulo que contiene el controlador  `PhoneListController`.
+
+#### __Modelo y Controlador__
+
+El modelo de datos es instanciado dentro del controlador  `PhoneListController`. El controlador es una simple función constructora que toma un único parámetro, `$scope`:
+
+`client/app.js`:
+
+```
+// Define the `phonecatApp` module
+var phonecatApp = angular.module('phonecatApp', []);
+
+// Define the `PhoneListController` controller on the `phonecatApp` module
+phonecatApp.controller('PhoneListController', function PhoneListController($scope) {
+  $scope.phones = [
+    {
+      name: 'Nexus S',
+      snippet: 'Fast just got faster with Nexus S.'
+    }, {
+      name: 'Motorola XOOM™ with Wi-Fi',
+      snippet: 'The Next, Next Generation tablet.'
+    }, {
+      name: 'MOTOROLA XOOM™',
+      snippet: 'The Next, Next Generation tablet.'
+    }
+  ];
+});
+```
+Aquí hemos declarado un controlador llamado `PhoneListController`  y registrado éste en un módulo Angular, `phonecatApp`. Observad que la directiva `ng-app` (en la etiqueta `<html>`) ahora especifica el nombre del módulo `phonecatApp` como el módulo a cargar cuando la aplicación realice el arranque.
+
+El controlador proporcionar un contexto para nuestro modelo de datos, el controlador nos permite establecer el data-binding entre el modelo y la vista:
+
+- La directiva `ngController`, localizada sobre la etiqueta `<body>`, referencia el nombre del controlador, `PhoneListController` (localizado en el archivo JavaScript `app.js`).
+- El controlador `PhoneListController` conecta el dato `phones` al `$scope` que fue inyectado a la función del controlador.  Este scope es un descendiente prototípico del rootscope que se creó cuando arrancó la aplicación. Este scope del controlador está disponible para todos los binding ubicados dentro de la etiqueta `body ng-controller="PhoneListController">`.
+
+#### __Scope__
+
+El concepto de scope es crucial en Angular. Un scope puede ser visto cómo el pegamento que permite a la plantilla, al modelo y al controlador trabajar juntos. Angular usa los scopes, junto con la información contenida el la plantilla, el modelo y el controlador para mantener el modelo y la vista separada, pero sincronizadas. Los cambios realizados sobre el modelo son reflejados en la vista, y los cambios que ocurran en la vista son son reflejados en el modelo. 
+
+#### __Pruebas__
+
+- Añadir otro binding al archivo `index.html`:
+```
+<p>Total number of phones: {{phones.length}}</p>
+```
+- Crear una nueva propiedad del modelo en el controlador:
+```
+$scope.name = 'world';
+```
+y bindearla a la plantilla:
+
+```
+<p>Hello, {{name}}!</p>
+```
+- Crear un repetidor en `index.html` que construya una tabla:
+```
+<table>
+  <tr><th>Row number</th></tr>
+  <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i}}</td></tr>
+</table>
+```
+- Intentar crear una tabla 10x10 utilizando un `ngRepeat` adicional.
+
+#### __Resumen de cambios__
 - Convertir la lista estática de teléfonos en dinámica:
   - Creando el controlador `PhoneListController`.
   - Extrayendo los datos desde el HTML del controlador como un conjunto de datos en memoria.
@@ -130,16 +251,130 @@ Añada otras expresiones al archivo `index.html`:
 
 [Ver diferencias del código con el paso-1][dif-paso-1-paso-2]
 
-### paso-3 _Componentes_
+### __paso-3 Componentes__
+En el paso anterior, hemos visto cómo un controlador y una plantilla trabajan juntas para convertir una página HTML estática en una vista dinámica. Éste es un patrón muy común en apliaciones SPA ( Single-Page Aplications):
 
-#### Resumen de cambios
+- En lugar de crear una página HTML estática en el servidor, el código del cliente "se hace cargo" e interactúa dinámicamente con la vista, modificandola al instante para reflejar los cambios en los datos del modelo, por lo general como resultado de la interacción del usuario (vamos a ver un ejemplo en el paso 5).
+
+La plantilla (la parte de la vista que contiene los binding y la lógica de presentación), actúa como un modelo de cómo nuestros datos deben estar organizados y presentados al usuario. El controlador proporciona el contexto en el cual los bindings son evaluados y donde se aplica el comportamiento y la lógica para nuestra plantilla.
+
+Hay todavía un par de áreas que podemos mejorar:
+
+- ¿ Y si queremos volver a utilizar la misma funcionalidad en otra parte de la aplicación?
+
+Tendríamos que duplicar toda la plantilla (incluyendo el controlador). Esto es propenso a errores y perjudica el mantenimiento.
+
+- El scope, que une el controlador y la plantilla en una vista dinámica, no está aislado de otras partes de la página. Esto quiere decir que un cambio,  que no esté relacionado, en otra parte de la página (por ejemplo, una colisión de nombres de variables) podría tener efectos secundarios inesperados y con una difícil depuración.
+
+#### __Componentes al rescate__
+Angular combina la unión de los controladores con las plantillas en entidades reutilizables y aisladas, conocidas como componentes. Además Angular, creará un contexto aislado para cada instancia de nuestro componente, lo que significa que no hay herencia prototípica, ni riesgo de que nuestro componente afecte a otras parte de la aplicación o viceversa.
+
+Para crear un componente, se utiliza el método `.componente()` de un módulo Angular. 
+
+En su forma más simple, un componente contiene una plantilla y un controlador. En realidad,  se puede omitir el controlador y Angular creará un controlador ficticio para nosotros. Esto es útil para los componentes que simplemente realizan alguna presentación, pero que no proveen ningún comportamiento a la plantilla.
+
+Veamos un ejemplo:
+```
+angular.
+  module('myApp').
+  component('greetUser', {
+    template: 'Hello, {{$ctrl.user}}!',
+    controller: function GreetUserController() {
+      this.user = 'world';
+    }
+  });
+```
+
+Ahora cada vez que incluyamos `<greet-user></greet-user>` en nuestra vista, Angular ampliará el DOM con un sub-árbol construido usando la plantilla y el controlador especificado en el componente.
+
+¿De dónde vienen esos $ctrl? y ¿a qué se refieren? Por razones ya mencionadas se considera una buena práctica evitar el uso del scope directamente. Podemos ( y debemos) utilizar la instancia de nuestro controlador, es decir, asignar nuestros datos y métodos a propiedades nuestro controlador (el `this` dentro del constructor del controlador) en lugar de hacerlo directamente al escope. 
+
+Desde la plantilla, podemos hacer referencia a la instancia del controlador usando un alias. De esta manera, el contexto de evaluación de nuestras expresiones está todavía más claro. De forma predeterminada los componentes utilizan `$ctrl` como alias de controlador, pero podemos anularla en caso de necesidad.
+
+#### __Usando Componentes__
+
+Ahora que hemos visto cómo crear componentes, vamos a refactorizar el HTML de nuestra página `index.html` haciendo uso del componente creado.
+
+`client/index.html`
+```
+<html ng-app="phonecatApp">
+<head>
+  ...
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="app.js"></script>
+  <script src="phone-list.component.js"></script>
+</head>
+<body>
+
+  <!-- Use a custom component to render a list of phones -->
+  <phone-list></phone-list>
+
+</body>
+</html>
+```
+`client/app.js`
+```
+// Define the `phonecatApp` module
+angular.module('phonecatApp', []);
+```
+
+`client/phone-list.component.js`
+```
+// Register `phoneList` component, along with its associated controller and template
+angular.
+  module('phonecatApp').
+  component('phoneList', {
+    template:
+        '<ul>' +
+          '<li ng-repeat="phone in $ctrl.phones">' +
+            '<span>{{phone.name}}</span>' +
+            '<p>{{phone.snippet}}</p>' +
+          '</li>' +
+        '</ul>',
+    controller: function PhoneListController() {
+      this.phones = [
+        {
+          name: 'Nexus S',
+          snippet: 'Fast just got faster with Nexus S.'
+        }, {
+          name: 'Motorola XOOM™ with Wi-Fi',
+          snippet: 'The Next, Next Generation tablet.'
+        }, {
+          name: 'MOTOROLA XOOM™',
+          snippet: 'The Next, Next Generation tablet.'
+        }
+      ];
+    }
+  });
+```
+El resultado de la salida debería ser el mismo. Pero, ¿qué hemos ganado?:
+
+- Nuestra lista de teléfonos es reutilizable.
+- Nuestra vista principal ( `index.html`) está limpia y es declarativa.
+- Nuestro componente está aislado y a salvo de influencias externas.
+- Es más fácil poner a prueba nuestro componente de forma aislada.
+
+
+#### __Pruebas__
+
+Anadir un par de listas de teléfonos a la página, añadiendo más elementos  `<phone-list></phone-list>` a la página `index.html`. Y ahora añadimos otro binding a la plantilla del componente:
+```
+template:
+    '<p>Total number of phones: {{$ctrl.phones.length}}</p>' +
+    '<ul>' +
+    ...
+```
+Recargue la página y observe que la nueva característica se ha propagado a todas las listas de teléfono.
+
+
+#### __Resumen de cambios__
 - Introducir componentes.
 - Combinar el controlador y la plantilla en un componente `phoneList` reusable y aislado.
 - Refactorizar la aplicación.
 
 [Ver diferencias del código con el paso-2][dif-paso-2-paso-3]
 
-### paso-4 _Organización de Archivos y Directorios_
+### __paso-4  Organización de Archivos y Directorios__
 
 #### Resumen de cambios
 - Refactorizar la estructura de directorios y ficheros, aplicando las mejores técnicas y prácticas para que sea más fácil el mantenimiento y escalado de la apliación en el futuro:
@@ -321,6 +556,8 @@ Para más información sobre AngularJS, visite https://angularjs.org/.
 [ngapp]: https://docs.angularjs.org/api/ng/directive/ngApp
 [bootstrap]: https://docs.angularjs.org/guide/bootstrap
 [expangular]: https://docs.angularjs.org/guide/expression
+[ngctrl]: https://docs.angularjs.org/api/ng/directive/ngController
+
 
 [dif-paso-0-paso-1]: https://github.com/coitimur/curso-angular/compare/paso-0...paso-1
 [dif-paso-1-paso-2]: https://github.com/coitimur/curso-angular/compare/paso-1...paso-2
