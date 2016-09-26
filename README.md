@@ -50,6 +50,7 @@ git clone https://github.com/coitimur/curso-angular
 ### __Base de Datos y Herramientas__
 - Descargar e instalar el servidor  [PostgreSQL][pgsql] . Cuando el asistente de instalación solicite la contraseña para el usuario 'admin' le ponemos: '1234'.
 - Descargar e instalar la herramienta [pgAdmin][pgadmin] para administración y desarrollo del servidor PostgreSQL. 
+- Conectar pgAdmin al servidor PostgreSQL y ejecutar el script [esquemaDB.sql][esquemadb]
 
 
 ### __Node.js y Herramientas__
@@ -596,7 +597,7 @@ Para más información sobre AngularJS, visite https://angularjs.org/.
 [expangular]: https://docs.angularjs.org/guide/expression
 [ngctrl]: https://docs.angularjs.org/api/ng/directive/ngController
 
-
+[esquemadb]: https://github.com/coitimur/curso-angular/blob/master/esquemaDB.sql
 [dif-paso-0-paso-1]: https://github.com/coitimur/curso-angular/compare/paso-0...paso-1
 [dif-paso-1-paso-2]: https://github.com/coitimur/curso-angular/compare/paso-1...paso-2
 [dif-paso-2-paso-3]: https://github.com/coitimur/curso-angular/compare/paso-2...paso-3
