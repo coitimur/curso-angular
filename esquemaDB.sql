@@ -7,7 +7,7 @@ DROP SEQUENCE  IF EXISTS webshop.sqphoneimages;
 DROP SEQUENCE IF EXISTS webshop.sqphones;
 DROP SEQUENCE IF EXISTS webshop.squsers;
  
-CREATE SCHEME webshop;
+CREATE SCHEMA webshop;
 
  CREATE SEQUENCE webshop.sqphoneimages
   INCREMENT 1
