@@ -1,10 +1,10 @@
 'use strict';
 
 angular.
-  module('core.factories.phone').
+  module('core.phone').
   factory('Phone', ['$resource',
     function($resource) {
-      return $resource('api/phones/:id', {}, {
+      return $resource('phones/:id', {}, {
         getAll: {
           method: 'GET',
           params: {},

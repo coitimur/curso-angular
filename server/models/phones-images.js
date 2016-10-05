@@ -38,7 +38,7 @@ exports.find=function(filters,response){
         }
         
         if(sWhere!='') sWhere = ' WHERE '+sWhere;
-        client.query('SELECT id,id_phone,imageUrl FROM webshop.phones_images'+sWhere+ ' ORDER BY id ASC', aValues, function(err, result) {
+        client.query('SELECT id,id_phone,img FROM webshop.phones_images'+sWhere+ ' ORDER BY id ASC', aValues, function(err, result) {
               // handle an error from the query
               if(handleError(err)) {
                     response(err,null);
