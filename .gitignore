@@ -1,10 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> origin/master
 node_modules
 bower_components
 
+=======
+>>>>>>> origin/master
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
