@@ -1,12 +1,6 @@
 # Form
-Vamos a ver la directiva ngForm y las facilidades de validación sobre el cliente que esta nos proporciona a través de sus propiedades.
+Vamos a ver la etiqueta `form` y la directiva ngForm junto con las facilidades de validación sobre el cliente que estas nos proporciona a través de sus propiedades.
 Si es especificada la propiedad `name`, el controlador del formulario es publicado en el scope actual con ese nombre.
-
-## Alias: ngForm
-En Angular los formularios pueden estar anidados. Esto quiere decir que el formulario padre será valido cuando todos los formularios hijos lo estén también. Los navegadores no permiten el anidamiento de los elementos `<form>`, por eso Angular proporciona la directiva `ngForm`, la cual funciona igual que` <form>` pero a demás puede ser anidada. El anidamiento de formularios puede ser útil, por ejemplo, si necesitamos determinar la validación de un subgrupo de controles.
-
->Nota: El propósito de ngForm es agrumpar controles, no reemplazar la etiqueta form.
-
 
 
 ## Propiedades y Clases CSS de los formularios Angular
@@ -27,7 +21,7 @@ A nivel de campo:
 `ng-invalid` es colocada si el campo es invalido.
 `ng-pristine` es colocada si el campo ha no sido modificado.
 `ng-dirty` es colocada si el campo ha sido modificado.
- `ng-touched` es colodada si el campo ha sido tocado.
+`ng-touched` es colodada si el campo ha sido tocado.
  
 
 Exiten otras clases más específicas utilizadas por Angular:
@@ -41,17 +35,17 @@ Angular proporciona propiedades sobre los formularios para ayudarnos a validarlo
 A nivel de formulario:
 `$valid` es true si todos los campos del formulario están validados.
 `$invalid` es true si alguno de los campos del formulario es invalido.
-`$$pristine` es true si ninguno de los campos del formulario ha sido modificado.
+`$pristine` es true si ninguno de los campos del formulario ha sido modificado.
 `$dirty` es true si alguno de los campos del formulario ha sido modificado.
 `$touched` es true si alguno de los campos del formulario ha sido tocado.
 `$submitted` es true si el formulario fue enviado.
 
 A nivel de campo:
-`$-valid` es true si el campo está validado.
-`$-invalid` es true si el campo es invalido.
-`$-pristine` es true si el campo ha no sido modificado.
-`$-dirty` es true si el campo ha sido modificado.
-`$-touched` es true si el campo ha sido tocado.
+`$valid` es true si el campo está validado.
+`$invalid` es true si el campo es invalido.
+`$pristine` es true si el campo ha no sido modificado.
+`$dirty` es true si el campo ha sido modificado.
+`$touched` es true si el campo ha sido tocado.
 
 
 
@@ -271,8 +265,8 @@ Las animaciones en ngForm son disparadas cuando algunas de las clases CSS son a�
 
 
 ### Accediendo las propiedades del Formulario Angular
-- Para el formulario: <form name>.<angular property>
-- Para un campo: <form name>.<input name>.<angular property>
+- Para el formulario: `form_name.angular_property`
+- Para un campo: `form_name.input_name.angular_property`
 
 ### Propiedad HTML5 `novalidate`
 La propiedad `novalidate` previene las validaciones que HTML5 realiza por defecto.
@@ -635,7 +629,7 @@ También es posible utilizar la directiva `ngTemplate` para incluir los mensajes
 
 ## Usando Checkboxes en Angular
 
-Los controles de formulario `checkbox` (casillad de verificación) son muy comunes en los formularios. Vamos a ver como Angular bindea sus datos utilizando la directiva `ngModel`. Cuando hay muchos checkbox puede ser confuso cómo manejar esos datos cuando se bindean a un objeto.
+Los controles de formulario `checkbox` (casilla de verificación) son muy comunes en los formularios. Vamos a ver como Angular bindea sus datos utilizando la directiva `ngModel`.
 
 ### Uso
 
@@ -688,7 +682,7 @@ Por defecto, los controles `checkbox` retornan un valor `true` o `false`. Pero e
     <label></label>
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="awesome" ng-model="user.contento" ng-true-value="Sí" ng-false-value="No">
+            <input type="checkbox" name="contento" ng-model="user.contento" ng-true-value="Sí" ng-false-value="No">
             ¿Estás contento?
         </label>
     </div>
@@ -716,7 +710,7 @@ como elemento:
 - `value` el valor que será asignado a la expresión `ngModel` cuando sea seleccionado. `value` sólo soporta valores de tipo `string`
 - `name` (opcional) propiedad name del formulario bajo el cual el control ha sido publicado.
 - `ngChange` (opcional) una expresión Angular para ser ejecutada cuando el valor de entrada cambie debido a una interacción del usuario con el control.
-- ngValue (opcional) la expresión Angular que será asignada a `ngModel` cuando sea seleccionado. Debe ser usado en vez de `value` cuando necesitemos un valor que no sea de tipo `string` (`boolean`, `array`, ...)
+- ngValue (opcional) la expresión Angular que será asignada a `ngModel` cuando sea seleccionado. Debe ser usado en vez de `value` cuando necesitemos un valor que no sea de tipo `string` (`boolean`, `array`, ...).
 
 
 
@@ -746,3 +740,45 @@ como elemento:
 ...
 ```
 
+## Alias: ngForm
+En Angular los formularios pueden estar anidados. Esto quiere decir que el formulario padre será valido cuando todos los formularios hijos lo estén también. Los navegadores no permiten el anidamiento de los elementos `<form>`, por eso Angular proporciona la directiva `ngForm`, la cual funciona igual que` <form>` pero a demás puede ser anidada. El anidamiento de formularios puede ser útil, por ejemplo, si necesitamos determinar la validación de un subgrupo de controles.
+
+>Nota: El propósito de ngForm es agrupar controles, no reemplazar la etiqueta form.
+
+
+Ejemplo:
+
+```
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+</head>
+<body ng-app="app">
+    <div ng-controller="mainController">
+        <form ng-submit="save(user)">
+            First Name:<input type="text" ng-model="user.firstName"> <br />
+            Last Name:<input type="text" ng-model="user.lastName"><br />
+            User Name:<input type="text" ng-model="user.userName"><br />
+            Password:<input type="password" ng-model="user.password"><br />
+            Gender: <input type="radio" ng-model="user.gender" value="male" />male
+            <input type="radio" ng-model="user.gender" value="female" />female<br />
+            <button type="submit">save</button>
+        </form>
+        <pre>Form:{{user | json}}</pre>
+      <pre>Saved Data:{{saveDate | json}}</pre>
+    </div>
+    <script>
+        var app = angular.module("app", []);
+        app.controller('mainController', ['$scope', function ($scope) {
+            $scope.saveDate = {};
+            $scope.save = function (user) {
+                $scope.saveDate = angular.copy(user);
+            }
+        }]);
+    </script>
+</body>
+</html>
+```
+Si cambiamos la etiqueta `form` por la directiva `ng-form`, vemos que el botón submmit no funciona.
