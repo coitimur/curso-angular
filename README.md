@@ -406,6 +406,118 @@ Recargue la página y observe que la nueva característica se ha propagado a tod
 paso-4  Organización de Archivos y Directorios   [<i class="icon-upload"></i>](#tabla-de-contenidos)
 --------------------------------------------------------------------
 
+En este paso, no vamos a añadir nuevas funcionalidades a la aplicación. Vamos a refactorizar el código base, reorganizándolo en distintos archivos, con el fin de que la aplicación pueda crecer y ser mantenida con más facilidad.
+
+En el paso anterior, vimos cómo diseñar la arquitectura de nuestra apliación para que sea modular y testable. En éste, vamos a organizar nuestro código base para que sea fácil (tanto para nosotos como para otros desarrolladores) navegar a través del código y localizar rápidamente las piezas que son relevantes para una funcionalidad específica. 
+
+En resumen, veremos cómo y por qué:
+- Poner cada entidad en su propio fichero.
+- Organizar el código por característica, en vez de por función.
+- Dividir el código en módulos de los que otros módulos puedan depender.
+
+### Una Característica por Archivo.
+Por simplicidad, puede ser tentador poner todo el código en un solo archivo, o tener un archivo por cada tipo; por ejemplo: todos los controladores en un archivo, los componentes en otro, y así sucesivamente. Esto puede parecer que funciona bien al principio, pero a medida que la aplicación crece, se complica el mantenimiento. A medida que agregamos más y más características, los archivos son más grandes y será difícil navegar y encontrar el código que estamos buscando. 
+
+### Organización por Característica
+Cuando los archivos relacionados lógicamente no se guardan juntos, es difícil localizar los archivos que implementan una característica determinada. Para nuestro caso, vamos a colocar todos los archivos que implementan una característica juntos en un directorio. 
+
+```
+app/
+  app.js
+  phone-list/
+    phone-list.component.js
+```
+
+### Usando Módulos
+Cómo se mencionó anteriormente, uno de los beneficios de tener una arquitectura modular es la reutilización del código (no solamente dentro de la misma aplicación, tambíen entre aplicaciones). Hay un último paso por hacer para hacer posible la reutilización de código sin fricciones:
+- Cada carácteristica debe declararse en su propio módulo y todas las entidades relacionadas deben registrarse sobre ese módulo.
+
+Tomemos por ejemplo, la carácteristica `phonelist`. Anteriormente, el componente `phonelist` se registró sobre el módulo `phonecatApp`:
+
+```angular.
+  module('phonecatApp').
+  component('phoneList', ...);
+
+```
+
+Ahora, imaginemos que tenemos una lista de teléfonos en otro proyecto en el que estamos trabajando. Gracias a nuestra arquitectura modular (no tenemos que reinventar la rueda), simplemente copiamos el directorio `phone-list` en nuestro nuevo proyecto y agregamos las etiquetas `script` necesarias en nuetro archivo `index.html` y hemos terminado.
+
+Bueno, no tan rápido. El nuevo proyecto no sabe nada acerca de un módulo llamado `phonecatApp`. Por lo tanto, habría que reemplazar todas las referencias a `phonecatApp` con el nombre del módulo principal del nuevo proyecto. Esto es laborioso y propenso a errores.
+
+Hay otra manera de hacer esto mejor. Cada característica se declarará en su propio módulo y todas las entidades relacionadas con la característica se registrarán sobre este módulo.
+
+El módulo principal (`phonecatApp`) declarará una dependencia por cada módulo del que dependa. Ahora, todo lo que se necesita para reutilizar el mísmo código en otro proyecto es copiar el directorio que contiene el código de una característica, en el nuevo proyecto y añadir el nombre del módulo como dependencia del módulo principal.
+
+`/`:
+
+```
+app/
+  phone-list/
+    phone-list.module.js
+    phone-list.component.js
+  app.module.js
+```
+`app/phone-list/phone-list.module.js`:
+
+```
+// Define el módulo `phoneList`
+angular.module('phoneList', []);`
+
+```
+
+`app/app.module.js`:
+
+```
+// Define el módulo `phonecatApp`
+angular.module('phonecatApp', [
+  // ...which depende del módulo `phoneList`
+  'phoneList'
+]);
+```
+
+Por pasar `phoneList` dentro del array de dependencias del módulo `phonecatApp`, Angular, hace que todas las entidades registradas sobre el módulo `phoneList` estén disponibles para toda la aplicación.
+
+> No hay que olvidar añadir al archivo `index.html`, una etiqueta `<script>` por cada archivo JavaScript que añadamos.
+
+### Plantillas Externas
+Puesto que estamo refactorizando, vamos a hacer una cosa más. Como hemos visto, los componentes tienen plantillas, que son básicamente fragmentos de código HTML que dictan cómo nuestros  datos están diseñados y son presentados al usuario. En el paso-3 se vio cómo podemos especificar la plantilla como una cadena de texto mediante la propiedad `template` en la especificación del componente. Tener el código HTML en una cadena no es lo ideal, especialmente para plantillas grandes. Sería mucho mejor, si pudieramos tener nuestro código HTML en archivos `.html`. De esta forma, podemos aprovechar la ayuda que los IDE's nos pueden ofrecer para editar el código HTML y también mantenemos la especificación de los componentes más limpia.
+
+Así que ahora, vamos a utilizar una plantilla externa para nuestro componente `phoneList`. Con el fin de denotar que estamos utilizando una plantilla externa, utilizamos la propiedad `templateUrl` a la que asignamos la dirección URL desde donde será cargada nuestra plantilla. Dado que queremos mantener la plantilla cerca de donde se define el componente, la situamos dentro de `app/phoneList`.
+
+`app/phone-list/phone-list.component.js`:
+
+```
+angular.
+module('phoneList').
+component('phoneList', {
+  // Nota: La URL es relativa al archivo `index.html`
+  templateUrl: 'phone-list/phone-list.template.html',
+  controller: ...
+});
+`````
+En tiempo de ejecución, cuando Angular necesite crear una instancia del componente `phoneList`, hará una petición HTTP para conseguir la plantilla desde `app/phone-list/phone-list.template.html`.
+
+### Diseño final Directorios y Archivos
+Después de todas las tareas de refactorizado, así es cómo debe quedar nuestra aplicación:
+
+`/`:
+
+```
+app/
+  phone-list/
+    phone-list.component.js
+    phone-list.module.js
+    phone-list.template.html
+  app.css
+  app.module.js
+  index.html``
+
+```
+
+
+
+
+
 #### Resumen de cambios
 - Refactorizar la estructura de directorios y ficheros, aplicando las mejores técnicas y prácticas para que sea más fácil el mantenimiento y escalado de la apliación en el futuro:
   - Poner cada entidad en su propio fichero.
@@ -418,6 +530,41 @@ paso-4  Organización de Archivos y Directorios   [<i class="icon-upload"></i>](
 paso-5 Filtrar la Directiva ngRepeater     [<i class="icon-upload"></i>](#tabla-de-contenidos)
 --------------------------------------------------------
 
+En los pasos anteriores hemos realizado el establecimiento de una base para aplicación. Ahora vamos a hacer algo más sencillo; añadiremos búsqueda de texto completo.
+
+`app/phone-list/phone-list.template.html`:
+
+
+```
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      Search: <input ng-model="$ctrl.query" />
+
+    </div>
+    <div class="col-md-10">
+      <!--Body content-->
+
+      <ul class="phones">
+        <li ng-repeat="phone in $ctrl.phones | filter:$ctrl.query">
+          <span>{{phone.name}}</span>
+          <p>{{phone.snippet}}</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+```
+
+Añadimos una etiqueta `<input>` HTML y usaremos la función de Angular `filter` para procesar la entrada para la directiva `ngRepeat`.
+
+Por la virtud de la directiva ngRepeat, permite al usuario introducir criterios de búsqueda, e inmediatamente ver los efectos de su búsqueda sobre el listado de teléfonos. El nuevo código demuestra lo siguiente:
+- Data-binding: esta es una de las características esenciales de Angular. Cuando se carga la página, Angular bindea el valor del `<input> `de búsqueda al modelo de datos especificado con `ngModel` y mantiene los dos sincronizados.
+- Uso del filtro `filter`: la función `filter` usa el valor de `$ctrl.query` para crear un nuevo array que contiene sólo los registros que cumplen con los criterios de búsqueda. `ngRepeat` automáticamente modifica la vista en respuesta a los cambios en el array retornado por el filtro `filter`. El proceso es totalmente transparente para el desarrollador.
+
 #### Resumen de cambios
 - Añadir un cuadro de búsqueda para demostrar:
   - Cómo funciona el data-binding sobre los campos de entrada.
@@ -428,6 +575,89 @@ paso-5 Filtrar la Directiva ngRepeater     [<i class="icon-upload"></i>](#tabla-
 
 paso-6 Two-way Data Binding   [<i class="icon-upload"></i>](#tabla-de-contenidos)
 -------------------------------------------
+En este paso, vamos a añadir una nueva funcionalidad para pemitir a los usuarios controlar el orden de los elementos del listado de teléfonos. El ordenado dinámico se ha implemetado creando una nueva propiedad en el modelo, y conectándola con el repetidor (`ngRepeat`) y dejando que la magia del data binding haga el resto del trabajo.
+
+### Component Template
+`app/phone-list/phone-list.template.html`:
+
+```
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!--Sidebar content-->
+
+      <p>
+        Search:
+        <input ng-model="$ctrl.query">
+      </p>
+
+      <p>
+        Sort by:
+        <select ng-model="$ctrl.orderProp">
+          <option value="name">Alphabetical</option>
+          <option value="age">Newest</option>
+        </select>
+      </p>
+
+    </div>
+    <div class="col-md-10">
+      <!--Body content-->
+
+      <ul class="phones">
+        <li ng-repeat="phone in $ctrl.phones | filter:$ctrl.query | orderBy:$ctrl.orderProp">
+          <span>{{phone.name}}</span>
+          <p>{{phone.snippet}}</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+```
+Se han realizado los siguentes cambios a la plantilla `phone-list.template.html`:
+- Primero, hemos añadido un elemento `<select>` enlazado a `$ctrl.ordeProp`, para que el usuario pueda elejir la opción de ordenación.
+- Después, encadenamos el filtro `orderBy` al filtro `filter` en la directiva ngRepeat:
+	```
+	<li ng-repeat="phone in $ctrl.phones | filter:$ctrl.query | orderBy:$ctrl.orderProp">
+```
+Angular, crea un *two way data-binding* entre el elemento `<select>` y la propiedad del modelo `$ctrl.ordeProp`. La propiedad del modelo `$ctrl.ordeProp` es entonces usada como entrada del filtro `orderBy`.
+
+### Controller Component
+
+`app/phone-list/phone-list.component.js`:
+
+```
+angular.
+  module('phoneList').
+  component('phoneList', {
+    templateUrl: 'phone-list/phone-list.template.html',
+    controller: function PhoneListController() {
+      this.phones = [
+        {
+          name: 'Nexus S',
+          snippet: 'Fast just got faster with Nexus S.',
+          age: 1
+        }, {
+          name: 'Motorola XOOM™ with Wi-Fi',
+          snippet: 'The Next, Next Generation tablet.',
+          age: 2
+        }, {
+          name: 'MOTOROLA XOOM™',
+          snippet: 'The Next, Next Generation tablet.',
+          age: 3
+        }
+      ];
+
+      this.orderProp = 'age';
+    }
+  });
+```
+
+- Se ha añadido el modelo `phones` (array de teléfonos) y la propiedad `age` a cada item del array. Esta propiedad es utilizada para ordenar los teléfonos.
+- Se ha añadido una línea al controlador que establece el valor por defecto de la propiedad `orderProp` a 'age'. Si no le damos un valor por defecto, el filtro `orderBy` permanecerá inicializado hasta que el usuario elija una opción.
+
+Este es un buen momento para hablar acerca del *two-way data-binding*. Observamos que cuando la aplicación es cargada en el navegador, "Newest" está seleccionada en el menú drop-down. Esto es porque hemos establecido la propiedad `orderProp` a 'age en el controlador. Aquí el biding está trabajando en la dirección desde nuestro modelo al UI. Ahora, si seleccionamos "Alphabetically" en el menú drop-down, el modelo será modificado y el listado de teléfonos será reordenado. El data-binding ha trabajado desde el UI al modelo.
+
 
 #### Resumen de cambios
 - Añadir una propiedad `age` al modelo phone.
